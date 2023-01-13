@@ -139,7 +139,7 @@ def takeCommand():
         print("Say that again please")
         return "None"
     return query
-#f
+#tg
 
 def open_py_file():
     call(["Python", "alarmtest.py"])
