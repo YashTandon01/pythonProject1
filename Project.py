@@ -19,6 +19,11 @@ import re
 from datetime import date
 import pyautogui
 from playsound import playsound
+from subprocess import call
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+import playsound
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -136,8 +141,13 @@ def takeCommand():
     return query
 
 
+def open_py_file():
+    call(["Python", "alarmtest.py"])
 
-
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER((IAudioEndpointVolume)))
 
 
 if __name__ == '__main__':
@@ -257,22 +267,26 @@ while True:
             temp = data.find("div", class_="BNeawe").text
             speak(f"current{search} is {temp}")
 
-# Set An Alarm
-        elif "alarm" in query:
-            speak("Enter the Time!")
-            time = input(":Enter the time")
+        elif 'set an alarm' in query:
+            open_py_file()
 
-            while True:
-                Time_Ac = datetime.datetime.now()
-                now = Time_Ac.strftime("%H:%M:%S")
 
-                if now == time:
-                    speak("Alarm Is Ringing")
-                    playsound("music.mp3")
-                    speak("Alarm Closed")
+        # Set An Alarm
+      # elif "alarm" in query:
+        #  speak("Enter the Time!")
+          #  time = input(":Enter the time")
 
-                elif now>time:
-                    break
+          #  while True:
+            #    Time_Ac = datetime.datetime.now()
+             #   now = Time_Ac.strftime("%H:%M:%S")
+
+              #  if now == time:
+              #      speak("Alarm Is Ringing")
+              #      playsound("music.mp3")
+              #      speak("Alarm Closed")
+
+              #  elif now>time:
+               #     break
 
 
 
